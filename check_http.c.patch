@@ -1,0 +1,17 @@
+--- nagios-plugins-2.0/plugins/check_http.c	2014-03-04 23:21:36.000000000 +0400
++++ nagios-plugins-2.0-patched/plugins/check_http.c	2014-03-25 18:19:42.000000000 +0400
+@@ -1087,12 +1087,12 @@
+       die (STATE_CRITICAL, _("HTTP CRITICAL: Invalid Status (%s)\n"), status_line);
+     }
+     /* server errors result in a critical state */
+-    else if (http_status >= 500) {
++    else if (http_status > 500) {
+       xasprintf (&msg, _("%s - "), status_line);
+       result = STATE_CRITICAL;
+     }
+     /* client errors result in a warning state */
+-    else if (http_status >= 400) {
++    else if (http_status == 500) {
+       xasprintf (&msg, _("%s - "), status_line);
+       result = max_state_alt(STATE_WARNING, result);
+     }
